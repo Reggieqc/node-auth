@@ -2,13 +2,13 @@ import { CustomError } from "../errors/custom.error";
 
 export class UserEntity {
   constructor(
-    id: string,
-    name: string,
-    email: string,
-    emailValidated: boolean,
-    password: string,
-    role: string[],
-    img?: string,
+    public id: string,
+    public name: string,
+    public email: string,
+    public emailValidated: boolean,
+    public password: string,
+    public role: string[],
+    public img?: string,
   ) {}
 
   static fromObject(object: { [key: string]: any }) {
