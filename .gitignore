@@ -1,13 +1,11 @@
 
-
-
-
-
 .env
-
-mongo/
-postgres/
+.DS_Store
+/mongo
+/postgres
 node_modules/
 dist/
 build/
 coverage/
+/.postman
+/postman
