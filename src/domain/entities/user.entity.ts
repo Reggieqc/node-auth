@@ -16,8 +16,8 @@ export class UserEntity {
       object;
 
     if (!_id && !id) throw CustomError.badRequest("Missing id");
-    if (!name) throw CustomError.badRequest("Missing email");
-    if (!email) throw CustomError.badRequest("Missing name");
+    if (!name) throw CustomError.badRequest("Missing name");
+    if (!email) throw CustomError.badRequest("Missing email");
     if (emailValidated === undefined)
       throw CustomError.badRequest("Missing emailValidated");
     if (!password) throw CustomError.badRequest("Missing password");

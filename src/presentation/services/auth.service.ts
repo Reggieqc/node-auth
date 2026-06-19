@@ -1,3 +1,4 @@
+import { bcryptAdapter } from "../../config";
 import { UserModel } from "../../data";
 import { CustomError, RegisterUserDto, UserEntity } from "../../domain";
 
@@ -12,9 +13,10 @@ export class AuthService {
     //always use try catch to  save in database
     try {
       const user = new UserModel(registerUserDto);
-      await user.save();
-      //Encripter la contraseña
 
+      //Encripter la contraseña
+      user.password = bcryptAdapter.hash(registerUserDto.password);
+      await user.save();
       //JWT <--- para mantener la autenticacion del usuario
 
       //Email de confirmacion
