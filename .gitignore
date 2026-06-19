@@ -9,3 +9,5 @@ build/
 coverage/
 /.postman
 /postman
+
+HISTORIAL_COMMITS.md
