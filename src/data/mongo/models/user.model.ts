@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "email is required"],
     unique: true,
   },
+  emailValidated: {
+    type: Boolean,
+    defaults: false,
+  },
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -24,4 +28,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export const UserModel = mongoose.model('User',userSchema);
+export const UserModel = mongoose.model("User", userSchema);
