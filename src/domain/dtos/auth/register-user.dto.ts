@@ -1,7 +1,11 @@
 import { regularExps } from "../../../config";
 
 export class RegisterUserDto {
-  private constructor(name: string, email: string, passwrod: string) {}
+  private constructor(
+    public name: string,
+    public email: string,
+    public password: string,
+  ) {}
   static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
     const { name, email, password } = object;
 
