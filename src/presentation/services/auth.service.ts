@@ -1,5 +1,5 @@
 import { markAsUntransferable } from "node:worker_threads";
-import { bcryptAdapter } from "../../config";
+import { bcryptAdapter, JwtAdapter } from "../../config";
 import { UserModel } from "../../data";
 import {
   CustomError,
@@ -52,10 +52,20 @@ export class AuthService {
     );
 
     const { password, ...userEntity } = UserEntity.fromObject(userRegistered);
+
+    const token = await JwtAdapter.generateToken({
+      id: userRegistered.id,
+      email: userRegistered.email,
+    });
+
+    if (!token) {
+      throw CustomError.internalServer("Error while creating JWT");
+    }
+
     if (isMatch) {
       return {
         user: userEntity,
-        token: "ABC",
+        token,
       };
     }
 
