@@ -1,6 +1,12 @@
+import { markAsUntransferable } from "node:worker_threads";
 import { bcryptAdapter } from "../../config";
 import { UserModel } from "../../data";
-import { CustomError, RegisterUserDto, UserEntity } from "../../domain";
+import {
+  CustomError,
+  RegisterUserDto,
+  UserEntity,
+  LoginUserDto,
+} from "../../domain";
 
 export class AuthService {
   //DI
@@ -29,5 +35,30 @@ export class AuthService {
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }
+  }
+
+  async loginUser(loginUserDto: LoginUserDto) {
+    const userRegistered = await UserModel.findOne({
+      email: loginUserDto.email,
+    });
+    if (!userRegistered)
+      throw CustomError.badRequest(
+        `There is not user registered with email ${loginUserDto.email} `,
+      );
+
+    const isMatch = bcryptAdapter.compare(
+      loginUserDto.password,
+      userRegistered.password,
+    );
+
+    const { password, ...userEntity } = UserEntity.fromObject(userRegistered);
+    if (isMatch) {
+      return {
+        user: userEntity,
+        token: "ABC",
+      };
+    }
+
+    throw CustomError.internalServer("Password is not valid ");
   }
 }
