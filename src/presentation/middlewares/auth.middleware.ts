@@ -13,7 +13,7 @@ export class AuthMiddleware {
     if (!authorization.startsWith("Bearer ")) {
       return res.status(401).json({ error: "Invalid Bearer token" });
     }
-    const token = authorization.split("").at(1) || "";
+    const token = authorization.replace(/^Bearer\s+/i, "").trim();
 
     try {
       const payload = await JwtAdapter.validateToken<{ id: string }>(token);
