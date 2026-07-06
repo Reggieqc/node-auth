@@ -16,7 +16,7 @@ export class FileUploadService {
   async uploadSingle(
     file: UploadedFile,
     folder: string = "uploads",
-    validExtensions: string[] = ["png", "jpg", "jpeg", "gif"],
+    validExtensions: string[] = ["png", "jpg", "jpeg", "gif", "pdf"],
   ) {
     try {
       const fileExtension = file.mimetype.split("/")[1] ?? "";
@@ -37,9 +37,15 @@ export class FileUploadService {
     }
   }
 
-  uploadMultiple(
-    file: UploadedFile[],
+  async uploadMultiple(
+    files: UploadedFile[],
     folder: string = "uploads",
-    validtExtensions: string[] = ["png", "jpg", "jpeg", "gif"],
-  ) {}
+    validExtensions: string[] = ["png", "jpg", "jpeg", "gif", "pdf"],
+  ) {
+    const uploadPromises = files.map((file) =>
+      this.uploadSingle(file, folder, validExtensions),
+    );
+    const fileNames = await Promise.all(uploadPromises);
+    return fileNames;
+  }
 }
